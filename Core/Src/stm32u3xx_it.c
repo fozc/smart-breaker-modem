@@ -22,6 +22,7 @@
 #include "stm32u3xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "bsp.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -187,7 +188,14 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
-
+  return;
+  {
+    static uint32_t wdt_cnt = 0;
+    if (++wdt_cnt >= 500) {   /* kick every 500 ms */
+      wdt_cnt = 0;
+      bsp_kick_wdt();
+    }
+  }
   /* USER CODE END SysTick_IRQn 1 */
 }
 
